@@ -13,7 +13,7 @@ El objetivo es implementar simulaciones y procesamiento de imágenes usando la t
   - `taller2/`: [tema del taller 2]
   - `taller3/`: [tema del taller 3]
 
-- `proyecto-final/`: implementación completa de un caso aplicado de óptica de Fourier
+- `proyecto-final/`: implementación completa de un caso aplicado de óptica de Fourier, filtros y convolusiones
 
 Cada carpeta de taller y del proyecto final sigue la misma estructura:
 - `data/`: archivos de entrada (ej. imágenes `.tiff`, datasets u otros)  
