@@ -24,9 +24,10 @@ Cada carpeta de taller y del proyecto final sigue la misma estructura:
 
 ## ⚙️ Requisitos
 
-Se recomienda usar un entorno **Conda** (ejemplo: `pyenv` con Python 3.11).  
+Se recomienda usar un entorno **Conda** (ejemplo: `pyenv` con Python 3.11) o **uv**.  
 
 Instalar dependencias con:
 
 ```bash
 pip install -r requirements.txt
+uv pip install -r requirements.txt
