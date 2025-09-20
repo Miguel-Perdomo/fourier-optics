@@ -12,6 +12,7 @@ def plot_picture(img: np.ndarray):
     ax.axis("off")
     st.pyplot(fig)
 
+    
 def create_square_patch(coordinates: np.ndarray):
   """
   Creates a matplotlib Rectangle from square coordinates.
