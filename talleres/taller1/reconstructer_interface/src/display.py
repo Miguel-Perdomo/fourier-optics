@@ -2,37 +2,60 @@ import numpy as np
 import streamlit as st
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+from typing import Callable, Tuple
 
 def complex_spectrum_visualization(matrix: np.ndarray):
     return np.abs(matrix)
 
-def plot_picture(img: np.ndarray):
+def plot_picture(img: np.ndarray) -> Tuple[plt.Figure, plt.Axes]:
+    """
+    Plot an image in grayscale without axes.
+
+    Parameters:
+      - img (np.ndarray): array representing the image.
+    
+    Returns:
+      - fig (matplotlib.figure)
+      - ax (matplotlib.axes)
+
+    """
     fig, ax = plt.subplots()
     ax.imshow(img, cmap = "gray")
     ax.axis("off")
-    st.pyplot(fig)
 
+    return fig, ax
+
+def create_square_patch(coordinates:np.ndarray):
+    """
+    Gives a square patch for plotting.
+
+    parameters:
     
-def create_square_patch(coordinates: np.ndarray):
-  """
-  Creates a matplotlib Rectangle from square coordinates.
-  """
-  x1, x2, y1, y2 = coordinates
+      - coordinates (np.ndarray): a 1d array-like with four 
+        values [x1, x2, y1, y2], defining the square/rectangle
+        region in image coordinates.
 
-  square_patch = patches.Rectangle(
-    (x1, y1),
-    x2 - x1,
-    y2 - y1,
-    linewidth=1,
-    edgecolor='white',
-    facecolor='none' 
-  )
+    returns:
+      - square_patch (matplotlib.figure): an square patch that
+        can be plotted.
 
-  return square_patch
+    """
+    x1, x2, y1, y2 = coordinates
+
+    square_patch = patches.Rectangle(
+        (x1, y1),
+        x2 - x1,
+        y2 - y1,
+        linewidth=1,
+        edgecolor="white",
+        facecolor="none"
+    )
+
+    return square_patch
 
 def create_circle_patch(coordinates: np.ndarray):
   """
-  Creates a matplotlib Circle from square coordinates.
+  Decorator that creates a matplotlib Circle from square coordinates.
   """
   center_x, center_y, radius = coordinates
 
@@ -45,3 +68,4 @@ def create_circle_patch(coordinates: np.ndarray):
   )
 
   return circle_patch
+
