@@ -1,4 +1,4 @@
-# fourier-optics
+# Fourier Optics
 Código y simulaciones de la materia Óptica de Fourier (UNAL).
 
 Este repositorio contiene el desarrollo de los **talleres** y el **proyecto final** del curso *Óptica de Fourier*.  
