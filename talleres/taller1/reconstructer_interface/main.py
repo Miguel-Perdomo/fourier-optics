@@ -72,7 +72,7 @@ if uploaded_file is not None:
             st.subheader("Spectrum")
             fourier_transform_img= fourier_transform.get_centered_fourier_transform(img_sample)
             spectrum = display.complex_spectrum_visualization(fourier_transform_img)
-            spectrum_fig, spectrum_ax = display.plot_picture(spectrum)
+            spectrum_fig, spectrum_ax = display.plot_picture(np.log(1 + spectrum))
             st.pyplot(spectrum_fig)
 
         with col2: 
@@ -83,7 +83,8 @@ if uploaded_file is not None:
                 square_mask, square_coordinates = filters.create_square_mask(img_sample, sample)
 
                 filtered_data = filters.filter_data(fourier_transform_img, square_mask)
-                filtered_data_fig, filtered_data_ax = display.plot_picture(display.complex_spectrum_visualization(filtered_data))
+                filtered_data_fig, filtered_data_ax = display.plot_picture(
+                                        np.log(1 + display.complex_spectrum_visualization(filtered_data)))
                 filtered_data_ax.add_patch(display.create_square_patch(square_coordinates))
                 st.pyplot(filtered_data_fig)
 
@@ -93,10 +94,10 @@ if uploaded_file is not None:
                 circle_mask, circle_coordinates = filters.create_circle_mask(img_sample, sample)
 
                 filtered_data = filters.filter_data(fourier_transform_img, circle_mask)
-                filtered_data_fig, filtered_data_ax = display.plot_picture(display.complex_spectrum_visualization(filtered_data))
+                filtered_data_fig, filtered_data_ax = display.plot_picture(
+                    np.log(1 + display.complex_spectrum_visualization(filtered_data)))
                 filtered_data_ax.add_patch(display.create_circle_patch(circle_coordinates))
                 st.pyplot(filtered_data_fig)
-
 
         st.header("Reconstruction")
 
@@ -109,8 +110,8 @@ if uploaded_file is not None:
             st.subheader("Reconstructed image")
             reconstructed = fourier_transform.get_inverse_fourier_transform(filtered_data)
             reconstructed_fig, reconstructed_ax = display.plot_picture(
-                                                    display.complex_spectrum_visualization(reconstructed)
-                                                    )
+                                                    display.complex_spectrum_visualization(reconstructed))
+                                                    
             st.pyplot(reconstructed_fig)
             
     else: 

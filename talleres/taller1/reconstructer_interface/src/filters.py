@@ -56,10 +56,9 @@ def create_circle_mask(img: np.ndarray, sample_size: int) -> np.ndarray:
   
   circular_mask = np.zeros_like(img)
   Y, X = np.indices((h, w))
-  mask = (np.abs(X - center[0]) <= radius) & (np.abs(Y - center[1]) <= radius)
+  mask = (X - center[0]) ** 2 + (Y - center[1]) ** 2 <= (radius ** 2)
   circular_mask[mask] = 1 
 
-  
   circle_coordinates = np.array([center[0], center[1], radius])
 
   return circular_mask, circle_coordinates

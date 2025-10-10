@@ -54,18 +54,28 @@ def create_square_patch(coordinates:np.ndarray):
     return square_patch
 
 def create_circle_patch(coordinates: np.ndarray):
-  """
-  Decorator that creates a matplotlib Circle from square coordinates.
-  """
-  center_x, center_y, radius = coordinates
+    """
+    Gives a circular patch for plotting.
 
-  circle_patch = patches.Circle(
-    (center_x, center_y),
-    radius,
-    linewidth=1,
-    edgecolor='white',
-    facecolor='none' 
-  )
+    parameters:
+    
+      - coordinates (np.ndarray): a 1d array-like with four 
+        values [center_x, center_y, radius], defining the
+        circular region in image coordinates.
 
-  return circle_patch
+    returns:
+      - circle_patch (matplotlib.figure): a circular patch 
+        that can be plotted.
 
+    """
+    center_x, center_y, radius = coordinates
+
+    circle_patch = patches.Circle(
+      (center_x, center_y),
+      radius,
+      linewidth=1,
+      edgecolor='white',
+      facecolor='none' 
+    )
+
+    return circle_patch
