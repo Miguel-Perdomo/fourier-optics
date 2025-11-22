@@ -53,9 +53,14 @@ def create_circle_mask(img: np.ndarray, sample_size: int) -> tuple[np.ndarray, n
     circle_mask = np.zeros_like(img, dtype=np.float32)
     circle_mask[mask] = 1.0
 
-    circle_coordinates = np.array([cx, cy, radius])
-    return circle_mask, circle_coordinates
+  radius = h / (sample_size * sample_size)
+  
+  circular_mask = np.zeros_like(img)
+  Y, X = np.indices((h, w))
+  mask = (X - center[0]) ** 2 + (Y - center[1]) ** 2 <= (radius ** 2)
+  circular_mask[mask] = 1 
 
+  circle_coordinates = np.array([center[0], center[1], radius])
 
 def filter_data(data: np.ndarray, mask: np.ndarray) -> np.ndarray:
     """Apply a frequency mask (element-wise multiplication)."""

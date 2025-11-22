@@ -19,10 +19,10 @@ st.set_page_config(page_title="Reconstruction of a sampled image", layout="cente
 st.markdown(
     """
     <h1 style='text-align: center; color: black;'>
-         App de Procesamiento de Imágenes
+         Reconstruction of sampled images
     </h1>
     <h3 style='text-align: center; color: gray;'>
-        Filtros con Transformada de Fourier y Convolución
+        Fourier transform and convolution
     </h3>
     """,
     unsafe_allow_html=True,
@@ -63,27 +63,56 @@ if uploaded_file is not None:
 
     if method == "Fourier transform":       
         st.header("Method 01: Fourier transform")
-        st.write("1. Calculate the Fourier transform of the image.")
-        st.subheader("Espectro")
-        fourier_transform_img= fourier_transform.get_centered_fourier_transform(img_sample)
-        spectrum = display.complex_spectrum_visualization(fourier_transform_img)
-        display.plot_picture(spectrum)
-        
+
         filter = st.radio("Select the filter", ["Square", "Circle"])
-        if filter == "Square":
-            st.subheader("Square filter")
 
-            square_mask, square_coordinates = filters.create_square_mask(img_sample, sample)
+        col1, col2 = st.columns(2)
 
-            filtered_data = filters.filter_data(fourier_transform_img, square_mask)
-            fig, ax = plt.subplots()
-            ax.imshow(np.abs(filtered_data), cmap = "gray")
-            ax.axis("off")
-            square = display.create_square_patch(square_coordinates)
-            ax.add_patch(square)
-            st.pyplot(fig)
-        else:
-            st.write("In progress")
+        with col1:
+            st.subheader("Spectrum")
+            fourier_transform_img= fourier_transform.get_centered_fourier_transform(img_sample)
+            spectrum = display.complex_spectrum_visualization(fourier_transform_img)
+            spectrum_fig, spectrum_ax = display.plot_picture(np.log(1 + spectrum))
+            st.pyplot(spectrum_fig)
+
+        with col2: 
+
+            if filter == "Square":
+                st.subheader("Square filter")
+
+                square_mask, square_coordinates = filters.create_square_mask(img_sample, sample)
+
+                filtered_data = filters.filter_data(fourier_transform_img, square_mask)
+                filtered_data_fig, filtered_data_ax = display.plot_picture(
+                                        np.log(1 + display.complex_spectrum_visualization(filtered_data)))
+                filtered_data_ax.add_patch(display.create_square_patch(square_coordinates))
+                st.pyplot(filtered_data_fig)
+
+            else:
+                st.subheader("Circular filter")
+
+                circle_mask, circle_coordinates = filters.create_circle_mask(img_sample, sample)
+
+                filtered_data = filters.filter_data(fourier_transform_img, circle_mask)
+                filtered_data_fig, filtered_data_ax = display.plot_picture(
+                    np.log(1 + display.complex_spectrum_visualization(filtered_data)))
+                filtered_data_ax.add_patch(display.create_circle_patch(circle_coordinates))
+                st.pyplot(filtered_data_fig)
+
+        st.header("Reconstruction")
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.subheader("Original image")
+            st.image(img, use_container_width=True)
+        with col2:
+            st.subheader("Reconstructed image")
+            reconstructed = fourier_transform.get_inverse_fourier_transform(filtered_data)
+            reconstructed_fig, reconstructed_ax = display.plot_picture(
+                                                    display.complex_spectrum_visualization(reconstructed))
+                                                    
+            st.pyplot(reconstructed_fig)
             
     else: 
         st.write("In progress")
