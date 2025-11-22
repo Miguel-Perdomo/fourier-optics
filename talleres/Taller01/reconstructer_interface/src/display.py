@@ -20,7 +20,9 @@ def plot_picture(img: np.ndarray) -> Tuple[plt.Figure, plt.Axes]:
 
     """
     fig, ax = plt.subplots()
-    ax.imshow(img, cmap = "gray")
+    ax.imshow(img, cmap="gray", vmin=0, vmax=1)  # asumimos normalización [0,1]
+    if title:
+        ax.set_title(title)
     ax.axis("off")
 
     return fig, ax
